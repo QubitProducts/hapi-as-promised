@@ -7,13 +7,9 @@ exports.register = function (plugin, options, next) {
     if (res.source && typeof res.source.then === 'function') {
       return res.source
         .then(function (value) {
-          res.source = value;
-          return res;
+          reply(value).type(res.headers['content-type']);
         })
-        .catch(function (err) {
-          throw err;
-        })
-        .then(reply, reply);
+        .catch(reply);
     }
     reply();
   });
